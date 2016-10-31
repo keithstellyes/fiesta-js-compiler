@@ -1,0 +1,10 @@
+2016/10/30 Roadmap
+
+#1. Implement basic stdlib
+#2. Implement the collections objects
+#3. Implement the jsobj function object
+#4. Implement the Object (a dict of jsobj)
+#5. Implement the more complex libs like Reflect
+#6. Implement parser
+#7. Implement transpiler to C
+#8. Pass tokens directly to gcc libs
