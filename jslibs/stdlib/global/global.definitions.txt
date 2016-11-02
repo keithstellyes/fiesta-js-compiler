@@ -1,0 +1,6 @@
+#this defines the math object
+
+{
+parent=""
+child=isNan, method, argc=1, src=global-functions.h/jsf_isNaN
+}

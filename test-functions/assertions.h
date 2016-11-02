@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include <string.h>
 #include "../misc.h"
+#include "../js-obj.h"
+#include "../tests/globals-testenv.h"
 
 #define out printf
 #define assertparams int* total, int* fails
@@ -22,6 +24,8 @@
 #define asserteq(fmtstr) asserter(expected == actual, fmtstr)
 
 #define _asserteq_str(msg, expected, actual) asserteq_str(total, fails, msg, expected, actual)
+#define _asserteq_strjsstdout(msg, expected) asserteq_str(total, fails, msg, expected, _JSSTDOUT)
+
 #define _asserteq_dbl(msg, expected, actual) asserteq_dbl(total, fails, msg, expected, actual)
 #define _asserteq_jstype(msg, expected, actual) asserteq_jstype(total, fails, msg, expected, actual)
 #define _asserteq_int(msg, expected, actual) asserteq_int(total, fails, msg, expected, actual)

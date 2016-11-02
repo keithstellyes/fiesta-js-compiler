@@ -1,0 +1,6 @@
+#this defines the math object
+
+{
+parent="Number"
+child=isFinite, method, argc=1, src=number-functions.h/jsf_Number_isFinite
+}

@@ -13,7 +13,7 @@
 #include "../../js-obj.h"
 #include "../../js-obj-functions.h"
 #include "../../js-string.h"
-#include "../../jslibs/stdlib/math/functions.h"
+#include "../../jslibs/stdlib/math/math-functions.h"
 #include "../largetext.h"
 
 #include<stdbool.h>
@@ -88,7 +88,7 @@ _asserteq_typ("Math.sign(somestring) failed", jst_nan, jo.type)
 	test_for_nan("1..");
 	test_for_nan("1...");
 	test_for_nan("-142.34.");
-#undef test_for_nan(s)
+
 }
 
 void do_stdlibtest_math(assertparams) {
@@ -97,4 +97,5 @@ void do_stdlibtest_math(assertparams) {
 	test_sign_str(total, fails);
 }
 
+#undef test_for_nan(s)
 #undef josign_d(n)

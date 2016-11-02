@@ -3,7 +3,7 @@
  * Author: Keith Stellyes
  * Tests the internal string data type used in strings.
  */
-
+//TODO: Get rid of this
 #pragma once
 #include "../test-functions/assertions.h"
 

@@ -3,15 +3,17 @@
  * Author: Keith Stellyes
  * A basic datatype for a string. It manages growth of its own memory.
  */
-
+/*
+ * TODO: We no longer need this header file, as the internal string datatype is
+ * now uthash. So get rid of references to this & delete this.
+ */
 #pragma once
 
-#include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
+#include "misc.h"
 /* The exact goldilocks amount for this I am unsure of. */
 #define STRCHUNK 1000
-#define ui64 uint_fast64_t
 
 typedef struct jsstring {
     char * s;

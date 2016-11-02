@@ -17,10 +17,11 @@
 #include <stdbool.h>
 #include "js-obj.h"
 #include "js-string.h"
+#include "uthash/utstring.h"
 
 #define STRBUFF_DOUBLE 30
 
-char * jsobj_to_string(jsobj jo) {
+char* jsobj_to_string(jsobj jo) {
     if (jo.type == jst_num) {
         char* string_output = malloc(STRBUFF_DOUBLE);
         snprintf(string_output, STRBUFF_DOUBLE-1, "%f", jo.val.d);
@@ -34,7 +35,7 @@ char * jsobj_to_string(jsobj jo) {
     }
 
     else if (jo.type == jst_str) {
-    	return jo.val.s.s;
+    	return utstring_body(jo.val.s);
     }
 
     else {
@@ -45,7 +46,10 @@ char * jsobj_to_string(jsobj jo) {
 jsobj new_jsobj_str(char* s) {
 	jsobj jo;
 	jo.type = jst_str;
-	jo.val.s.s = s;
+	UT_string* uts;
+	utstring_new(uts);
+	utstring_printf(uts, s);
+	jo.val.s = uts;
 	return jo;
 }
 
@@ -75,9 +79,16 @@ jsobj new_jsobj_bool(bool b) {
 	return jo;
 }
 
+jsobj new_jsobj_undef() {
+	jsobj jo;
+	jo.type = jst_nan;
+	return jo;
+}
+
 jsobj jsobj_str_to_dbl(jsobj jo) {
 	int i = 0;
-	char c = *(jo.val.s.s);
+	char* jo_str = utstring_body(jo.val.s);
+	char c = *(jo_str);
 	bool has_digit = false;
 	int neg_ctr = 0;
 	int dot_ctr = 0;
@@ -93,10 +104,11 @@ jsobj jsobj_str_to_dbl(jsobj jo) {
 		else if(!isspace(c)) {
 			return new_jsobj_bytype(jst_nan);
 		}
-		c = *(jo.val.s.s + ++i);
+
+		c = *(jo_str + ++i);
 	}
 	if(has_digit && neg_ctr <= 1 && dot_ctr <= 1) {
-		return new_jsobj_dbl(strtod(jo.val.s.s, NULL));
+		return new_jsobj_dbl(strtod(jo_str, NULL));
 	}
 	return new_jsobj_nan();
 }
@@ -114,10 +126,7 @@ bool loose_equality(jsobj j1, jsobj j2) {
 			return true;
 		}
 	}
-	else {
-		//TODO: Logic...
-		return false;
-	}
+	return false;
 }
 jsobj jsobj_loose_equality(jsobj j1, jsobj j2) {
 	return new_jsobj_bool(loose_equality(j1, j2));

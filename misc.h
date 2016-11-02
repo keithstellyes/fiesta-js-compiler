@@ -6,10 +6,13 @@
 
 #pragma once
 
+#include <stdint.h>
 #include <stdlib.h>
 #include <time.h>
 
 #define str(s) #s
+#define ui64 uint_fast64_t
+#define ui8 uint_fast8_t
 
 // Taken from:
 // http://stackoverflow.com/a/3643273/6913666

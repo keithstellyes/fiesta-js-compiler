@@ -1,0 +1,7 @@
+#this defines the math object
+
+{
+parent="Math"
+child=E, const, src=math-constants.h/JSLIB_MATH_E
+child=sign, method, argc=1, src=math-functions.h/jsf_Math_sign
+}
