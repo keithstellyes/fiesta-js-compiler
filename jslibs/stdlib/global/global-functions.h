@@ -6,15 +6,15 @@
 
 #pragma once
 
-#include "../../../js-obj.h"
-#include "../../../js-obj-functions.h"
+#include "../../../jsobj/js-obj.h"
+#include "../../../jsobj/js-obj-functions.h"
 
 jsobj jsf_isNaN(jsobj jo) {
-	return jo.type == jst_nan;
+	return get_jotype(jo) == jst_nan;
 }
 
 jsobj jsf_parseFloat(jsobj jo) {
-	if (jo.type == jst_pinf || jo.type == jst_ninf) {
+	if (get_jotype(jo) == jst_pinf || get_jotype(jo) == jst_ninf) {
 		return new_jsobj_bytype(jo.type);
 	}
 	return jsobj_str_to_dbl(jo);

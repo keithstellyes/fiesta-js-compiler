@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "../misc.h"
-#include "../js-obj.h"
+#include "../jsobj/js-obj.h"
 #include "../tests/globals-testenv.h"
 
 #define out printf

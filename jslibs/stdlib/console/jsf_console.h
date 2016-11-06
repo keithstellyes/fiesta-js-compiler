@@ -5,8 +5,8 @@
  */
 #pragma once
 
-#include "../../../js-obj.h"
-#include "../../../js-obj-functions.h"
+#include "../../../jsobj/js-obj.h"
+#include "../../../jsobj/js-obj-functions.h"
 
 
 #ifdef __BUILDOP_TST

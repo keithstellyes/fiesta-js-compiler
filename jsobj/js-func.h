@@ -4,6 +4,3 @@
  *
  * The data structure for the JS Function datatype
  */
-
-
-

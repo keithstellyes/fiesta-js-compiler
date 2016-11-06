@@ -8,9 +8,8 @@
 #include "../../test-functions/assertions.h"
 
 #include "../../misc.h"
-#include "../../js-obj.h"
-#include "../../js-obj-functions.h"
-#include "../../js-string.h"
+#include "../../jsobj/js-obj.h"
+#include "../../jsobj/js-obj-functions.h"
 #include "../../jslibs/stdlib/console/jsf_console.h"
 #include "../largetext.h"
 #include "../globals-testenv.h"
@@ -18,14 +17,14 @@
 #include<stdbool.h>
 #include<stdio.h>
 
-void tst1arg(int* total, int* fails) {
+void __tst1arg(int* total, int* fails) {
 	jsobj jo = new_jsobj_str("Hello, World!");
 	_flushjsstdout();
 	jsf_console__log(1, &jo);
 	_asserteq_strjsstdout("console.log(\"Hello, World!\" failed.", "Hello, World! \n");
 }
 
-void tstmanyargs(int* total, int* fails) {
+void __tstmanyargs(int* total, int* fails) {
 	jsobj args[2];
 	jsobj j1 = new_jsobj_str("Hello,");
 	jsobj j2 = new_jsobj_str("World!");
@@ -55,6 +54,6 @@ void tstmanyargs(int* total, int* fails) {
 }
 
 void do_console_log_test(int* total, int* fails) {
-	tst1arg(total, fails);
-	tstmanyargs(total, fails);
+	__tst1arg(total, fails);
+	__tstmanyargs(total, fails);
 }

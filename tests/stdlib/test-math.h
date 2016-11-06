@@ -10,9 +10,8 @@
 #include "../../test-functions/assertions.h"
 
 #include "../../misc.h"
-#include "../../js-obj.h"
-#include "../../js-obj-functions.h"
-#include "../../js-string.h"
+#include "../../jsobj/js-obj.h"
+#include "../../jsobj/js-obj-functions.h"
 #include "../../jslibs/stdlib/math/math-functions.h"
 #include "../largetext.h"
 
@@ -22,7 +21,7 @@
 #define josign_d(n) jsf_Math_sign(new_jsobj_dbl(n))
 #define josign_str(s) jsf_Math_sign(new_jsobj_str(s))
 
-void test_random(assertparams) {
+void __test_random(assertparams) {
 	jsobj jo1 = jsf_Math_random();
 	jsobj jo2 = jsf_Math_random();
 	*total += 1;
@@ -36,7 +35,7 @@ void test_random(assertparams) {
 	}
 }
 
-void test_sign_num(assertparams) {
+void __test_sign_num(assertparams) {
 	jsobj jo = josign_d(-1);
 	_asserteq_dbl("Math.sign(-1) failed", -1, jo.val.d);
 	jo = josign_d(0);
@@ -50,7 +49,7 @@ void test_sign_num(assertparams) {
 
 }
 
-void test_sign_str(assertparams) {
+void __test_sign_str(assertparams) {
 #define test_for_nan(s) jo = josign_str(s); \
 _asserteq_typ("Math.sign(somestring) failed", jst_nan, jo.type)
 
@@ -92,9 +91,9 @@ _asserteq_typ("Math.sign(somestring) failed", jst_nan, jo.type)
 }
 
 void do_stdlibtest_math(assertparams) {
-	test_random(total, fails);
-	test_sign_num(total, fails);
-	test_sign_str(total, fails);
+	__test_random(total, fails);
+	__test_sign_num(total, fails);
+	__test_sign_str(total, fails);
 }
 
 #undef test_for_nan(s)

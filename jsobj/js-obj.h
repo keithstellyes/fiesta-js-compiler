@@ -40,12 +40,29 @@
 #pragma once
 #include<stdbool.h>
 #include<time.h>
-#include "js-string.h"
 #include "js-func.h"
-#include "uthash/utstring.h"
+#include "../uthash/utstring.h"
+#include "../uthash/uthash.h"
+#include "js-arr.h"
+
+typedef struct jsfunc jsfunc;
+typedef union jsobj_val jsobj_val;
+typedef enum jsfunc_type jsfunc_type;
+typedef union jsf_ptr jsf_ptr;
+typedef struct jsobj jsobj;
+typedef enum jsobj_type jsobj_type;
+typedef struct jsarr_el jsarr_el;
+
+enum jsfunc_type {
+	jsfargc_indef,
+	jsfargc_0,
+	jsfargc_1,
+	jsfargc_2,
+	jsfargc_3,
+};
 
 /* List incomplete */
-typedef enum {
+enum jsobj_type{
     jst_num,
     jst_str,
     jst_set,
@@ -58,43 +75,37 @@ typedef enum {
     jst_regex,
     jst_arr,
     jst_obj,
-    jst_null
-} jsobj_type;
+    jst_null,
+    jst_datetime
+};
 
-typedef union {
-    long long i;
-    //char * s;
-    //jsstring s;
-    UT_string* s;
-    double d;
-    //jslist *;
-    bool b;
-    time_t tim;
-} jsobj_val;
-
-typedef struct {
-    jsobj_type type;
-    jsobj_val  val;
-} jsobj;
-
-typedef enum {
-	jsfargc_indef,
-	jsfargc_0,
-	jsfargc_1,
-	jsfargc_2,
-	jsfargc_3,
-} jsfunc_type;
-
-typedef union {
+union jsf_ptr {
 		jsobj (*jsfargp_indef)(int, jsobj*);
 		jsobj (*jsfargp_0)(jsobj);
 		jsobj (*jsfargp_1)(jsobj);
 		jsobj (*jsfargp_2)(jsobj, jsobj);
 		jsobj (*jsfargp_3)(jsobj, jsobj, jsobj);
-}jsf_ptr;
+};
 
-
-typedef struct jsfunc {
+struct jsfunc {
 	jsfunc_type type;
 	jsf_ptr ptr;
-} jsfunc;
+};
+
+union jsobj_val {
+    long long i;
+    UT_string* s;
+    double d;
+    bool b;
+    time_t tim;
+    jsfunc funcptr;
+    jsobj* arrhead;
+};
+
+struct jsobj {
+    jsobj_type type;
+    jsobj_val  val;
+    jsobj* next;
+    jsobj* prev;
+    UT_hash_handle hh;
+};

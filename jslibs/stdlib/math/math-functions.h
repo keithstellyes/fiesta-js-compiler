@@ -6,8 +6,8 @@
 
 #pragma once
 
-#include "../../../js-obj.h"
-#include "../../../js-obj-functions.h"
+#include "../../../jsobj/js-obj.h"
+#include "../../../jsobj/js-obj-functions.h"
 #include "../../../misc.h"
 #include <stdlib.h>
 #include <ctype.h>
@@ -20,30 +20,30 @@
  */
 
 jsobj jsf_Math_sign(jsobj jo) {
-	if(jo.type == jst_num) {
-		if(jo.val.d < 0) {
+	if(get_jotype(jo) == jst_num) {
+		if(get_joval_dbl(jo) < 0) {
 			return new_jsobj_dbl(-1);\
 		}
-		else if(jo.val.d == 0) {
+		else if(get_joval_dbl(jo) == 0) {
 			return new_jsobj_dbl(0);
 		}
-		else if(jo.val.d > 0) {
+		else if(get_joval_dbl(jo) > 0) {
 			return new_jsobj_dbl(1);
 		}
 		else {
 			return new_jsobj_dbl(0);
 		}
 	}
-	else if(jo.type == jst_ninf) {
+	else if(get_jotype(jo) == jst_ninf) {
 		return new_jsobj_dbl(-1);
 	}
-	else if(jo.type == jst_pinf) {
+	else if(get_jotype(jo) == jst_pinf) {
 		return new_jsobj_dbl(1);
 	}
-	else if(jo.type == jst_null) {
+	else if(get_jotype(jo) == jst_null) {
 		return new_jsobj_dbl(0);
 	}
-	else if(jo.type == jst_str) {
+	else if(get_jotype(jo) == jst_str) {
 		return jsf_Math_sign(jsobj_str_to_dbl(jo));
 	}
 	return new_jsobj_bytype(jst_nan);
@@ -54,93 +54,93 @@ jsobj jsf_Math_random() {
 }
 
 jsobj jsf_Math_sinh(jsobj jo) {
-    if (jo.type != jst_num) {
+    if (get_jotype(jo) != jst_num) {
         return new_jsobj_nan();
     }
-    return new_jsobj_dbl(sinh(jo.val.d));
+    return new_jsobj_dbl(sinh(get_joval_dbl(jo)));
 }
 jsobj jsf_Math_pow(jsobj j1, jsobj j2) {
-    if (j1.type != jst_num || j2.type != jst_num) {
+    if (get_jotype(j1) != jst_num || get_jotype(j2) != jst_num) {
         return new_jsobj_nan();
     }
-    return new_jsobj_dbl(pow(j1.val.d, j2.val.d));
+    return new_jsobj_dbl(pow(get_joval_dbl(j1), get_joval_dbl(j2)));
 }
 jsobj jsf_Math_asinh(jsobj jo) {
-    if (jo.type != jst_num) {
+    if (get_jotype(jo) != jst_num) {
         return new_jsobj_nan();
     }
-    return new_jsobj_dbl(asinh(jo.val.d));
+    return new_jsobj_dbl(asinh(get_joval_dbl(jo)));
 }
 jsobj jsf_Math_ceil(jsobj jo) {
-    if (jo.type != jst_num) {
+    if (get_jotype(jo) != jst_num) {
         return new_jsobj_nan();
     }
-    return new_jsobj_dbl(ceil(jo.val.d));
+    return new_jsobj_dbl(ceil(get_joval_dbl(jo)));
 }
 jsobj jsf_Math_atan2(jsobj j1, jsobj j2) {
-    if (j1.type != jst_num || j2.type != jst_num) {
+    if (get_jotype(j1) != jst_num || get_jotype(j2) != jst_num) {
         return new_jsobj_nan();
     }
-    return new_jsobj_dbl(atan2(j1.val.d, j2.val.d));
+    return new_jsobj_dbl(atan2(get_joval_dbl(j1), get_joval_dbl(j2)));
 }
 jsobj jsf_Math_asin(jsobj jo) {
-    if (jo.type != jst_num) {
+    if (get_jotype(jo) != jst_num) {
         return new_jsobj_nan();
     }
-    return new_jsobj_dbl(asin(jo.val.d));
+    return new_jsobj_dbl(asin(get_joval_dbl(jo)));
 }
 jsobj jsf_Math_atanh(jsobj jo) {
-    if (jo.type != jst_num) {
+    if (get_jotype(jo) != jst_num) {
         return new_jsobj_nan();
     }
-    return new_jsobj_dbl(atanh(jo.val.d));
+    return new_jsobj_dbl(atanh(get_joval_dbl(jo)));
 }
 jsobj jsf_Math_exp(jsobj jo) {
-    if (jo.type != jst_num) {
+    if (get_jotype(jo) != jst_num) {
         return new_jsobj_nan();
     }
-    return new_jsobj_dbl(exp(jo.val.d));
+    return new_jsobj_dbl(exp(get_joval_dbl(jo)));
 }
 jsobj jsf_Math_tan(jsobj jo) {
-    if (jo.type != jst_num) {
+    if (get_jotype(jo) != jst_num) {
         return new_jsobj_nan();
     }
-    return new_jsobj_dbl(tan(jo.val.d));
+    return new_jsobj_dbl(tan(get_joval_dbl(jo)));
 }
 jsobj jsf_Math_log(jsobj jo) {
-    if (jo.type != jst_num) {
+    if (get_jotype(jo) != jst_num) {
         return new_jsobj_nan();
     }
-    return new_jsobj_dbl(log(jo.val.d));
+    return new_jsobj_dbl(log(get_joval_dbl(jo)));
 }
 jsobj jsf_Math_log10(jsobj jo) {
-    if (jo.type != jst_num) {
+    if (get_jotype(jo) != jst_num) {
         return new_jsobj_nan();
     }
-    return new_jsobj_dbl(log10(jo.val.d));
+    return new_jsobj_dbl(log10(get_joval_dbl(jo)));
 }
 jsobj jsf_Math_acos(jsobj jo) {
-    if (jo.type != jst_num) {
+    if (get_jotype(jo) != jst_num) {
         return new_jsobj_nan();
     }
-    return new_jsobj_dbl(acos(jo.val.d));
+    return new_jsobj_dbl(acos(get_joval_dbl(jo)));
 }
 jsobj jsf_Math_atan(jsobj jo) {
-    if (jo.type != jst_num) {
+    if (get_jotype(jo) != jst_num) {
         return new_jsobj_nan();
     }
-    return new_jsobj_dbl(atan(jo.val.d));
+    return new_jsobj_dbl(atan(get_joval_dbl(jo)));
 }
 jsobj jsf_Math_tanh(jsobj jo) {
-    if (jo.type != jst_num) {
+    if (get_jotype(jo) != jst_num) {
         return new_jsobj_nan();
     }
-    return new_jsobj_dbl(tanh(jo.val.d));
+    return new_jsobj_dbl(tanh(get_joval_dbl(jo)));
 }
 jsobj jsf_Math_sin(jsobj jo) {
-    if (jo.type != jst_num) {
+    if (get_jotype(jo) != jst_num) {
         return new_jsobj_nan();
     }
-    return new_jsobj_dbl(sin(jo.val.d));
+    return new_jsobj_dbl(sin(get_joval_dbl(jo)));
 }
 
