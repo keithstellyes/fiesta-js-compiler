@@ -32,6 +32,11 @@
 #define get_joval_datetime(joarg) joarg.val.tim
 #define get_joval_dbl(joarg) joarg.val.d
 
+#define is_jsobj_numberobj(joarg) (get_jotype(joarg) == jst_num || get_jotype(joarg) == jst_pinf \
+    || get_jotype(joarg) == jst_ninf || get_jotype(joarg) == jst_nan)
+
+#define is_jsobj_strorarrlen1(joarg) (get_jotype(joarg) == jst_arr && get_jsobj_arraylen(joarg) == 1)
+
 void jsobj_arrayappend(jsobj* joarg, jsobj* newelement) {
 	DL_APPEND(joarg->val.arrhead, newelement);
 }
@@ -160,14 +165,12 @@ jsobj new_jsobj_undef() {
 	return jo;
 }
 
-jsobj jsobj_str_to_dbl(jsobj jo) {
-	int i = 0;
-	char* jo_str = utstring_body(jo.val.s);
-	char c = *(jo_str);
+bool str_canbe_dbl(char* s) {
+	char c = *(s);
 	bool has_digit = false;
 	int neg_ctr = 0;
 	int dot_ctr = 0;
-
+	int i = 0;
 	while(c != '\0') {
 		if(isdigit(c)) {
 			has_digit = true;
@@ -177,12 +180,37 @@ jsobj jsobj_str_to_dbl(jsobj jo) {
 			dot_ctr++;
 		}
 		else if(!isspace(c)) {
-			return new_jsobj_bytype(jst_nan);
+			return false;
 		}
 
-		c = *(jo_str + ++i);
+		c = *(s + ++i);
 	}
 	if(has_digit && neg_ctr <= 1 && dot_ctr <= 1) {
+		return true;
+	}
+	return false;
+}
+
+/* If it's a 1 el array or just a string, it'll attempt to parse it, if it's a
+ * double, it'll just return itself. Otherwise, returns NaN.
+ */
+jsobj jsobj_todbl(jsobj jo) {
+	char* jo_str;
+	if (get_jotype(jo) == jst_str) {
+		jo_str = utstring_body(jo.val.s);
+	} else if (is_jsobj_strorarrlen1(jo)) {
+		jsobj* elttemp;
+		DL_FOREACH(jo.val.arrhead, elttemp) {
+			jsobj jotemp = *elttemp;
+			jo_str = get_joval_string(jotemp);
+		}
+	} else if (get_jotype(jo) == jst_num){
+		return jo;
+	} else {
+		return new_jsobj_nan();
+	}
+	char* s = get_joval_string(jo);
+	if (str_canbe_dbl(s)) {
 		return new_jsobj_dbl(strtod(jo_str, NULL));
 	}
 	return new_jsobj_nan();

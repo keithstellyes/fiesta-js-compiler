@@ -18,7 +18,7 @@ tests/%.o: ../tests/%.c
 	@echo 'Building file: $<'
 	@echo 'Invoking: Cross GCC Compiler'
 	#tried here, also...
-	gcc -D__BUILDOP_TST -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
+	gcc -D__BUILDOP_TST -D__BUILDOP_SHELLAPP -O3 -Wall -c -fmessage-length=0 -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -o "$@" "$<"
 	@echo 'Finished building: $<'
 	@echo ' '
 

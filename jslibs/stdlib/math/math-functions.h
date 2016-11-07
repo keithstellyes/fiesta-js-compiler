@@ -44,7 +44,7 @@ jsobj jsf_Math_sign(jsobj jo) {
 		return new_jsobj_dbl(0);
 	}
 	else if(get_jotype(jo) == jst_str) {
-		return jsf_Math_sign(jsobj_str_to_dbl(jo));
+		return jsf_Math_sign(jsobj_todbl(jo));
 	}
 	return new_jsobj_bytype(jst_nan);
 }

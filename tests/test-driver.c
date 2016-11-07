@@ -26,7 +26,6 @@ int main() {
 	print_test_results();
 	printf("%d\n", sizeof(jsobj));
 
-	//TODO: Assertion tests
 	return 0;
 }
 #endif
