@@ -32,45 +32,45 @@
 #define get_joval_datetime(joarg) joarg.val.tim
 #define get_joval_dbl(joarg) joarg.val.d
 
-#define is_jsobj_numberobj(joarg) (get_jotype(joarg) == jst_num || get_jotype(joarg) == jst_pinf \
-    || get_jotype(joarg) == jst_ninf || get_jotype(joarg) == jst_nan)
+#define is_jsobj_numberobj(joarg) (get_jotype(joarg) == JSObj::jst_num || get_jotype(joarg) == JSObj::jst_pinf \
+    || get_jotype(joarg) == JSObj::jst_ninf || get_jotype(joarg) == JSObj::jst_nan)
 
-#define is_jsobj_strorarrlen1(joarg) (get_jotype(joarg) == jst_arr && get_jsobj_arraylen(joarg) == 1)
+#define is_jsobj_strorarrlen1(joarg) (get_jotype(joarg) == JSObj::jst_arr && get_jsobj_arraylen(joarg) == 1)
 
-void jsobj_arrayappend(jsobj* joarg, jsobj* newelement) {
+void jsobj_arrayappend(JSObj::jsobj* joarg, JSObj::jsobj* newelement) {
 	DL_APPEND(joarg->val.arrhead, newelement);
 }
 
 
-char* jsobj_to_string(jsobj jo) {
-    if (jo.type == jst_num) {
-        char* string_output = malloc(STRBUFF_DOUBLE);
+char* jsobj_to_string(JSObj::jsobj jo) {
+    if (jo.type == JSObj::jst_num) {
+        char* string_output = (char*) malloc(STRBUFF_DOUBLE);
         snprintf(string_output, STRBUFF_DOUBLE-1, "%f", jo.val.d);
         return string_output;
-    } else if (jo.type == jst_bool) {
+    } else if (jo.type == JSObj::jst_bool) {
         if (jo.val.b == true) {
             return "true";
         }
         return "false";
-    } else if (jo.type == jst_str) {
+    } else if (jo.type == JSObj::jst_str) {
     	return get_joval_string(jo);
-    } else if (jo.type == jst_datetime) {
-    	char* _s = calloc(STRBUFF_ARROUTPUT, sizeof(char));
+    } else if (jo.type == JSObj::jst_datetime) {
+    	char* _s = (char*) calloc(STRBUFF_ARROUTPUT, sizeof(char));
     	char* ctime_str = ctime(&jo.val.tim);
     	*(ctime_str + (strlen(ctime_str)-1)) = '\0';
     	strcat(_s, ctime_str);
     	return _s;
-    } else if (jo.type == jst_arr) {
-    	jsobj* elt;
-    	jsobj* tmp;
+    } else if (jo.type == JSObj::jst_arr) {
+    	JSObj::jsobj* elt;
+    	JSObj::jsobj* tmp;
 
-    	char* string_output = calloc(STRBUFF_ARROUTPUT, sizeof(char));
+    	char* string_output = (char*) calloc(STRBUFF_ARROUTPUT, sizeof(char));
 
     	DL_FOREACH_SAFE(jo.val.arrhead, elt, tmp) {
     		//jsobj_type jot = get_jotype(*elt->val.arrhead);
-    		jsobj_type jot = elt->type;
+    		JSObj::jsobj_type jot = elt->type;
 
-    		if (jot != jst_num && jot != jst_arr) {
+    		if (jot != JSObj::jst_num && jot != JSObj::jst_arr) {
     			//i += sprintf(string_output, "'%s',",jsobj_to_string(*elt));
     			strcat(string_output, "'");
     			strcat(string_output, jsobj_to_string(*elt));
@@ -82,7 +82,7 @@ char* jsobj_to_string(jsobj jo) {
     		}
     		strcat(string_output, ",");
     	}
-    	char* final_string_output = calloc(STRBUFF_ARROUTPUT, sizeof(char));
+    	char* final_string_output = (char*) calloc(STRBUFF_ARROUTPUT, sizeof(char));
 
     	//char* delet = strstr(string_output, ",\0");
     	*(string_output + (strlen(string_output)-1)) = '\0';
@@ -95,10 +95,10 @@ char* jsobj_to_string(jsobj jo) {
     }
 }
 
-int get_jsobj_arraylen(jsobj jo) {
+int get_jsobj_arraylen(JSObj::jsobj jo) {
 	int count = 0;
 	//Required for the function, but thrown away value.
-	jsobj* elt_placeholder;
+	JSObj::jsobj* elt_placeholder;
 	DL_COUNT(jo.val.arrhead, elt_placeholder, count);
 	return count;
 }
@@ -109,23 +109,23 @@ int get_jsobj_arraylen(jsobj jo) {
 	DL_APPEND(jo.val.arrhead, &eltoadd);
 }*/
 
-jsobj new_jsobj_array() {
-	jsobj jo;
-	jo.type = jst_arr;
+JSObj::jsobj new_jsobj_array() {
+	JSObj::jsobj jo;
+	jo.type = JSObj::jst_arr;
 	jo.val.arrhead = NULL;
 	return jo;
 }
 
-jsobj new_jsobj_datetime(time_t t) {
-	jsobj jo;
-	jo.type = jst_datetime;
+JSObj::jsobj new_jsobj_datetime(time_t t) {
+	JSObj::jsobj jo;
+	jo.type = JSObj::jst_datetime;
 	jo.val.tim = t;
 	return jo;
 }
 
-jsobj new_jsobj_str(char* s) {
-	jsobj jo;
-	jo.type = jst_str;
+JSObj::jsobj new_jsobj_str(char* s) {
+	JSObj::jsobj jo;
+	jo.type = JSObj::jst_str;
 	UT_string* uts;
 	utstring_new(uts);
 	utstring_printf(uts, s);
@@ -133,35 +133,35 @@ jsobj new_jsobj_str(char* s) {
 	return jo;
 }
 
-jsobj new_jsobj_dbl(double d) {
-	jsobj jo;
-	jo.type = jst_num;
+JSObj::jsobj new_jsobj_dbl(double d) {
+	JSObj::jsobj jo;
+	jo.type = JSObj::jst_num;
 	jo.val.d = d;
 	return jo;
 }
 
-jsobj new_jsobj_nan() {
-	jsobj jo;
-	jo.type = jst_nan;
+JSObj::jsobj new_jsobj_nan() {
+	JSObj::jsobj jo;
+	jo.type = JSObj::jst_nan;
 	return jo;
 }
 
-jsobj new_jsobj_bytype(jsobj_type jt) {
-	jsobj jo;
+JSObj::jsobj new_jsobj_bytype(JSObj::jsobj_type jt) {
+	JSObj::jsobj jo;
 	jo.type = jt;
 	return jo;
 }
 
-jsobj new_jsobj_bool(bool b) {
-	jsobj jo;
-	jo.type = jst_bool;
+JSObj::jsobj new_jsobj_bool(bool b) {
+	JSObj::jsobj jo;
+	jo.type = JSObj::jst_bool;
 	jo.val.b = b;
 	return jo;
 }
 
-jsobj new_jsobj_undef() {
-	jsobj jo;
-	jo.type = jst_nan;
+JSObj::jsobj new_jsobj_undef() {
+	JSObj::jsobj jo;
+	jo.type = JSObj::jst_nan;
 	return jo;
 }
 
@@ -194,17 +194,17 @@ bool str_canbe_dbl(char* s) {
 /* If it's a 1 el array or just a string, it'll attempt to parse it, if it's a
  * double, it'll just return itself. Otherwise, returns NaN.
  */
-jsobj jsobj_todbl(jsobj jo) {
+JSObj::jsobj jsobj_todbl(JSObj::jsobj jo) {
 	char* jo_str;
-	if (get_jotype(jo) == jst_str) {
+	if (get_jotype(jo) == JSObj::jst_str) {
 		jo_str = utstring_body(jo.val.s);
 	} else if (is_jsobj_strorarrlen1(jo)) {
-		jsobj* elttemp;
+		JSObj::jsobj* elttemp;
 		DL_FOREACH(jo.val.arrhead, elttemp) {
-			jsobj jotemp = *elttemp;
+			JSObj::jsobj jotemp = *elttemp;
 			jo_str = get_joval_string(jotemp);
 		}
-	} else if (get_jotype(jo) == jst_num){
+	} else if (get_jotype(jo) == JSObj::jst_num){
 		return jo;
 	} else {
 		return new_jsobj_nan();
@@ -219,33 +219,33 @@ jsobj jsobj_todbl(jsobj jo) {
 // ==
 // see:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness
-bool loose_equality(jsobj j1, jsobj j2) {
+bool loose_equality(JSObj::jsobj j1, JSObj::jsobj j2) {
 	if (j1.type == j2.type) {
-		if(j1.type == jst_nan
-			|| j1.type == jst_pinf
-			|| j1.type == jst_ninf
-			|| j1.type == jst_undef
-			|| j1.type == jst_null) {
+		if(j1.type == JSObj::jst_nan
+			|| j1.type == JSObj::jst_pinf
+			|| j1.type == JSObj::jst_ninf
+			|| j1.type == JSObj::jst_undef
+			|| j1.type == JSObj::jst_null) {
 			return true;
 		}
 	}
 	return false;
 }
-jsobj jsobj_loose_equality(jsobj j1, jsobj j2) {
+JSObj::jsobj jsobj_loose_equality(JSObj::jsobj j1, JSObj::jsobj j2) {
 	return new_jsobj_bool(loose_equality(j1, j2));
 }
 
 // ===
 // see:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Equality_comparisons_and_sameness
-bool strict_equality(jsobj j1, jsobj j2) {
+bool strict_equality(JSObj::jsobj j1, JSObj::jsobj j2) {
 	if (j1.type != j2.type
-	     || j1.type == jst_nan
-	     || j2.type == jst_nan) {
+	     || j1.type == JSObj::jst_nan
+	     || j2.type == JSObj::jst_nan) {
 		return false;
 	}
 	return loose_equality(j1, j2);
 }
-jsobj jsobj_strict_equality(jsobj j1, jsobj j2) {
+JSObj::jsobj jsobj_strict_equality(JSObj::jsobj j1, JSObj::jsobj j2) {
 	return new_jsobj_bool(strict_equality(j1, j2));
 }

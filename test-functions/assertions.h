@@ -46,6 +46,6 @@ bool asserteq_int(int* total, int* fails, char* msg, int expected, int actual) {
 	asserteq("%s.\nExpected:\"%d\", Actual:\"%d\"\n");
 }
 
-bool asserteq_typ(int* total, int* fails, char* msg, jsobj_type expected, jsobj_type actual) {
+bool asserteq_typ(int* total, int* fails, char* msg, JSObj::jsobj_type expected, JSObj::jsobj_type actual) {
 	asserteq("Incorrect type.");
 }

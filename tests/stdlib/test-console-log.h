@@ -18,26 +18,26 @@
 #include<stdio.h>
 
 void __tst1arg(int* total, int* fails) {
-	jsobj jo = new_jsobj_str("Hello, World!");
+	JSObj::jsobj jo = new_jsobj_str("Hello, World!");
 	_flushjsstdout();
 	jsf_console__log(1, &jo);
 	_asserteq_strjsstdout("console.log(\"Hello, World!\" failed.", "Hello, World! \n");
 }
 
 void __tstmanyargs(int* total, int* fails) {
-	jsobj args[2];
-	jsobj j1 = new_jsobj_str("Hello,");
-	jsobj j2 = new_jsobj_str("World!");
+	JSObj::jsobj args[2];
+	JSObj::jsobj j1 = new_jsobj_str("Hello,");
+	JSObj::jsobj j2 = new_jsobj_str("World!");
 	args[0] = j1;
 	args[1] = j2;
 	_flushjsstdout();
 	jsf_console__log(2, args);
 	_asserteq_strjsstdout("console.log(\"Hello,\", \"World!\") failed", "Hello, World! \n");
 
-	jsobj args2[3];
+	JSObj::jsobj args2[3];
 	j1 = new_jsobj_str("Hello,");
 	j2 = new_jsobj_str("World!");
-	jsobj j3 = new_jsobj_dbl(4.2);
+	JSObj::jsobj j3 = new_jsobj_dbl(4.2);
 	args2[0] = j1;
 	args2[1] = j2;
 	args2[2] = j3;

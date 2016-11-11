@@ -18,7 +18,7 @@ snprintf(_snprintftmpbfr2, _JSSTDOUT_BUFFSIZE, "%s%s", _JSSTDOUT, _snprintftmpbf
 strcpy(_JSSTDOUT, _snprintftmpbfr2);
 #endif
 
-jsobj jsf_console__log(int argc, jsobj* args) {
+JSObj::jsobj jsf_console__log(int argc, JSObj::jsobj* args) {
 	while(argc--) {
 		char* s = jsobj_to_string(*args);
 		_printf("%s ", s);

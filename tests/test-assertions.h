@@ -14,11 +14,11 @@
 
 void __test_asserteq_str(assertparams) {
  	_asserteq_str("_assereq_str bad", "a", "a");
- 	jsobj jo = new_jsobj_str("hw");
+ 	JSObj::jsobj jo = new_jsobj_str("hw");
  	jsf_console__log(1, &jo);
  	_asserteq_dbl("_asserteq_dbl bad", 4.2, 4.2);
  	_asserteq_int("_asserteq_int bad", 3, 3);
- 	_asserteq_typ("_asserteq_jstype bad", jst_str, jst_str);
+ 	_asserteq_typ("_asserteq_jstype bad", JSObj::jst_str, JSObj::jst_str);
 }
 
 void do_test_assertions(assertparams) {

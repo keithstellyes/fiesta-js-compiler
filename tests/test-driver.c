@@ -24,7 +24,7 @@ int main() {
 	do_console_log_test(&total, &fails);
 	do_stdlibtest_math(&total, &fails);
 	print_test_results();
-	printf("%d\n", sizeof(jsobj));
+	printf("%d\n", sizeof(JSObj::jsobj));
 
 	return 0;
 }

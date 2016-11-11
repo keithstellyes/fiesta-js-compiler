@@ -20,10 +20,12 @@
 
 #define josign_d(n) jsf_Math_sign(new_jsobj_dbl(n))
 #define josign_str(s) jsf_Math_sign(new_jsobj_str(s))
+#define test_for_nan(s) jo = josign_str(s); \
+_asserteq_typ("Math.sign(somestring) failed", JSObj::jst_nan, jo.type)
 
 void __test_random(assertparams) {
-	jsobj jo1 = jsf_Math_random();
-	jsobj jo2 = jsf_Math_random();
+	JSObj::jsobj jo1 = jsf_Math_random();
+	JSObj::jsobj jo2 = jsf_Math_random();
 	*total += 1;
 	if (jo1.val.d == jo2.val.d) {
 		jo2 = jsf_Math_random();
@@ -36,7 +38,7 @@ void __test_random(assertparams) {
 }
 
 void __test_sign_num(assertparams) {
-	jsobj jo = josign_d(-1);
+	JSObj::jsobj jo = josign_d(-1);
 	_asserteq_dbl("Math.sign(-1) failed", -1, jo.val.d);
 	jo = josign_d(0);
 	_asserteq_dbl("Math.sign(0) failed", 0, jo.val.d);
@@ -50,10 +52,7 @@ void __test_sign_num(assertparams) {
 }
 
 void __test_sign_str(assertparams) {
-#define test_for_nan(s) jo = josign_str(s); \
-_asserteq_typ("Math.sign(somestring) failed", jst_nan, jo.type)
-
-	jsobj jo = josign_str("-1");
+	JSObj::jsobj jo = josign_str("-1");
 	_asserteq_dbl("Math.sign(\"-1\") failed", -1, jo.val.d);
 	jo = josign_str("0");
 	_asserteq_dbl("Math.sign(\"0\") failed", 0, jo.val.d);

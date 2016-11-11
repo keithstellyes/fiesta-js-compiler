@@ -30,7 +30,7 @@ js-compiler: $(OBJS) $(USER_OBJS)
 	@echo $(OBJS) $(USER_OBJS) $(LIBS) 
 	@echo 'Building target: $@'
 	@echo 'Invoking: Cross GCC Linker'
-	gcc -o "js-compiler" -D__BUILDOP_TST $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -o "js-compiler" -D__BUILDOP_TST $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
